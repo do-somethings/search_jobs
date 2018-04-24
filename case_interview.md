@@ -4,7 +4,8 @@
 
 ### 1.awk
 
-#### 1.1现有两个文件a与b，内容分别为：
+#### 1.1 操作2个文件
+现有两个文件a与b，内容分别为：
 ```
 [root@test ~]# cat a
 北京 电信
@@ -95,6 +96,24 @@ dcba
 ```
 # echo "abcd" |awk -F "" '{for(i=NF;i>1;i--)printf("%s",$i);print $1}'
 dcba
+```
+
+### 3. locate与slocate区别
+```
+slocate只搜索当前用户有权限的文件或目录，locate会搜索所有文件
+
+Slocate takes into account file and directory permissions when searching. slocate won't list files in directories 
+that a user does not have permissions to list.
+```
+
+### 4.  linux下比较两个目录下的文件
+```
+[root@test ~]# ls test1
+1  2
+[root@test ~]# ls test2
+1
+[root@test ~]# diff -r test1 test2
+Only in test1: 2
 ```
 
 ## 二、服务相关
