@@ -1,6 +1,6 @@
 # 面试题
 
-## Linux命令相关
+## 一、Linux命令相关
 
 ### 1.awk
 
@@ -51,7 +51,8 @@ s='abcd'
 print s[::-1]
 dcba
 
-原理是：This is extended slice syntax. It works by doing [begin:end:step] - by leaving begin and end off and specifying a step of -1, it reverses a string.
+原理是：This is extended slice syntax. It works by doing [begin:end:step] 
+- by leaving begin and end off and specifying a step of -1, it reverses a string.
 ```
 
 ##### 2.1.2 使用内置的reversed()方法
@@ -95,3 +96,31 @@ dcba
 # echo "abcd" |awk -F "" '{for(i=NF;i>1;i--)printf("%s",$i);print $1}'
 dcba
 ```
+
+## 二、服务相关
+
+### 1.nginx
+
+#### 1.1 简述X-Forwarded-For作用
+
+```
+X-Forwarded-For 是一个 HTTP 扩展头部，主要是为了让 Web 服务器获取访问用户的真实 IP 地址。
+
+X-Forwarded-For是用于记录代理信息的，每经过一级代理(匿名代理除外)，代理服务器都会把这次请求的来源IP追加在X-Forwarded-For中。
+```
+
+#### 1.2 nginx跨域配置
+
+CORS（Cross-Origin Resource Sharing 跨源资源共享），当一个请求url的协议、域名、端口三者之间任意一与当前页面地址不同即为跨域。
+```
+http {
+......
+add_header Access-Control-Allow-Origin '*';
+add_header Access-Control-Allow-Headers 'X-Requested-With,Content-Type';
+add_header Access-Control-Allow-Methods 'GET,POST,OPTIONS';
+......
+}
+```
+这样就可以实现GET,POST,OPTIONS的跨域请求的支持 
+也可以 add_header Access-Control-Allow-Origin http://test.51testing.com; --指定允许的url;
+
