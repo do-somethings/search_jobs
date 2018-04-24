@@ -1,8 +1,8 @@
 # 面试题
 
-##Linux命令相关
+## Linux命令相关
 
-###awk
+### awk
 现有两个文件a与b，内容分别为：
 ```
 [root@test ~]# cat a
