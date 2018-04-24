@@ -142,3 +142,31 @@ add_header Access-Control-Allow-Methods 'GET,POST,OPTIONS';
 ```
 这样就可以实现GET,POST,OPTIONS的跨域请求的支持 
 也可以 add_header Access-Control-Allow-Origin http://test.51testing.com; --指定允许的url;
+
+#### 1.3 nginx中location 匹配的优先级
+示例1：
+```
+(location = 完整路径) > (location 完整路径) >(location ^~ 路径) >(location ~* 正则) >(location 路径)
+>(location /)
+比如：
+ = /poechant/a.jpg  > /poechant/a.jpg > ^~ /poechant/ > ~* \.jpg$ > /poechant/ > /
+```
+**同等条件下带正则表达式的优先级低**
+
+示例2：
+```
+location 匹配的优先级:
+(location = 完整路径) > (location 完整路径) >(location ^~ 路径) >(location ~* 正则) >(location 路径)
+>(location /)
+
+A. location = 完整路径：   location = /test/index.html     经常用与首页，即location = /    常用
+B. location 完整路径：     location /test/index.html
+C. location ^~ 路径:       location ^~ /test   不支持正则， 最长前缀匹配规则， 如/a1/a2/和/a1/两者间，会匹配进前者，与配置文件顺序无关
+D. location ~* 正则:       location ~* /.*\.(html|htm|php)$              常用
+E. location 路径:          location  /test
+F. location / ：           location /       通用规则，匹配到所有       常用
+
+匹配优先级：
+A>B>C>E>E>F
+```
+
