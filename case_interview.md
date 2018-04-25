@@ -86,11 +86,12 @@ This is extended slice syntax. It works by doing [begin:end:step]
 
 - 解释二：
 
-a[起始位(包含):结束位(不包含):差值]
-[详见Stack Overflow](https://stackoverflow.com/questions/5846004/unable-to-reverse-lists-in-python-getting-nonetype-as-list)
+a[起始位(包含):结束位(不包含):差值]，[详见Stack Overflow](https://stackoverflow.com/questions/5846004/unable-to-reverse-lists-in-python-getting-nonetype-as-list)
+```
 a = range(20)
 Slices let you take a piece of an array. it works like a[beginIndexIncluded:endIndexExcluded:Step]
 a[::-1] includes all elements of a, but starts with the last one and ends with the first (reversal) 
+```
 
 
 ##### 2.1.2 使用内置的reversed()方法
