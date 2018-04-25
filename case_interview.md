@@ -39,6 +39,31 @@
 云南 联通 6
 
 ```
+#### 1.2 请使用sed/awk/grep的任一命令输出以下文件中的网卡名，即"wlp1s0
+```"
+
+- 文件内容
+
+```
+[root@test ~]# cat test.file 
+IP-address      HW-type     Flags       HW-address            Mask     Device
+130.48.0.1       0x1         0x2         80:4b:c7:10:3e:41     *        wlp1s0
+```
+
+- 对应命令
+```
+[root@test ~]# awk '/^[0-9]/{print $6}' test.file 
+wlp1s0
+[root@test ~]# awk 'NR==2{print $NF}' test.file 
+wlp1s0
+[root@test ~]# awk 'NR>1{print $6}' test.file                       
+wlp1s0
+[root@test ~]# awk -F "[ ]+" 'NR==1{for(i=1;i<=NF;i++) f[$i]=i;next}{print $(f["Device"])}' test.file        
+wlp1s0
+(next代表进行下一轮循环，{print $(f["Device"])}其实打印的是NR==2即第二行对应的内容)
+[root@test ~]# sed -nr '/^[0-9]/s#(.*)\*[^a-z]*(.*)#\2#gp' test.file 
+wlp1s0
+```
 
 ### 2.字符串反转
 
