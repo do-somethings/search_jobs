@@ -40,17 +40,15 @@
 
 ```
 #### 1.2 请使用sed/awk/grep的任一命令输出以下文件中的网卡名，即"wlp1s0
-```"
 
-- 文件内容
+文件内容
 
 ```
 [root@test ~]# cat test.file 
 IP-address      HW-type     Flags       HW-address            Mask     Device
 130.48.0.1       0x1         0x2         80:4b:c7:10:3e:41     *        wlp1s0
 ```
-
-- 对应命令
+对应命令
 ```
 [root@test ~]# awk '/^[0-9]/{print $6}' test.file 
 wlp1s0
@@ -64,6 +62,7 @@ wlp1s0
 [root@test ~]# sed -nr '/^[0-9]/s#(.*)\*[^a-z]*(.*)#\2#gp' test.file 
 wlp1s0
 ```
+
 
 ### 2.字符串反转
 
@@ -80,7 +79,7 @@ dcba
 原理：
 解释一：
 This is extended slice syntax. It works by doing [begin:end:step] 
-- by leaving begin and end off and specifying a step of -1, it reverses a string.
+-by leaving begin and end off and specifying a step of -1, it reverses a string.
 解释二：
 a[起始位(包含):结束位(不包含):差值]
 [详见Stack Overflow](https://stackoverflow.com/questions/5846004/unable-to-reverse-lists-in-python-getting-nonetype-as-list)
@@ -208,3 +207,4 @@ F. location / ：           location /       通用规则，匹配到所有     
 A>B>C>D>E>F
 ```
 
+ - 1
