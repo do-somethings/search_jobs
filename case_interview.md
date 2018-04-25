@@ -52,8 +52,16 @@ s='abcd'
 print s[::-1]
 dcba
 
-原理是：This is extended slice syntax. It works by doing [begin:end:step] 
+原理：
+解释一：
+This is extended slice syntax. It works by doing [begin:end:step] 
 - by leaving begin and end off and specifying a step of -1, it reverses a string.
+解释二：
+a[起始位(包含):结束位(不包含):差值]
+[详见Stack Overflow](https://stackoverflow.com/questions/5846004/unable-to-reverse-lists-in-python-getting-nonetype-as-list)
+a = range(20)
+Slices let you take a piece of an array. it works like a[beginIndexIncluded:endIndexExcluded:Step]
+a[::-1] includes all elements of a, but starts with the last one and ends with the first (reversal) 
 ```
 
 ##### 2.1.2 使用内置的reversed()方法
@@ -86,9 +94,14 @@ dcba
 ```
 ##### 2.1.4 借用列表reverse()方法
 ```
-s=’abcd’
+s='abcd'
 l = list(s)
+**注意列表的reverse()方法返回值为None，若想有返回值可使用reversed()方法,即reversed(l)**
+# use reverse()
+l.reverse()
 print '' .join(x for x in l)
+# use reversed()
+print '' .join(x for x in reversed(list(s)))
 dcba
 ```
 
@@ -167,6 +180,6 @@ E. location 路径:          location  /test
 F. location / ：           location /       通用规则，匹配到所有       常用
 
 匹配优先级：
-A>B>C>E>E>F
+A>B>C>D>E>F
 ```
 
