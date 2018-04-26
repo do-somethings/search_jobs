@@ -489,7 +489,13 @@ echo "export PROMPT_COMMAND='{ msg=\$(history 1 | { read x y; echo \$y; });user=
 
 ## 五、 监控
 
-### 1.1 收集监控指标
+### 1. 各个监控系统对比
+
+Prometheus采用的是pull的方式获取数据，Open-falcon使用push的方式
+
+Zabbix既有自动注册又有主动发现
+
+### 2. 收集监控指标
 
 需要监控一台服务器的哪些指标，如果是这台机器是web服务器还需要监控哪些项目。
 
