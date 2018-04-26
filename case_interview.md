@@ -218,6 +218,7 @@ mobile.internal.sina.com.cn 10.75.24.59 0.012s -[16/Apr/2018:16:03:56 +0800] - "
 ```
 # Method 1
 awk 'BEGIN{num=0;sum=0}{l=length($3);rt=substr($3,1,l-1);num++;sum+=rt}END{printf "%0.3f\n", sum/num}' nginx.log
+
 # Method 2
 awk '{print $3}' nginx.log |awk -F "s" '{print $1}'|awk '{ sum+=$1}END{print sum/NR}'
 ```
