@@ -210,12 +210,16 @@ mobile.internal.sina.com.cn 10.75.24.59 0.012s -[16/Apr/2018:16:03:56 +0800] - "
 ```
 
 通过nginx访问日志：
+
 - 计算平均响应时间
 
 **注意需要去掉第三列中的单位s，否则无法进行数学运算。**
 
 ```
+# Method 1
 awk 'BEGIN{num=0;sum=0}{l=length($3);rt=substr($3,1,l-1);num++;sum+=rt}END{printf "%0.3f\n", sum/num}' nginx.log
+# Method 2
+awk '{print $3}' nginx.log |awk -F "s" '{print $1}'|awk '{ sum+=$1}END{print sum/NR}'
 ```
 
 - 按IP访问量列出前十名
