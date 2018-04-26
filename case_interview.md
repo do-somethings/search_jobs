@@ -511,13 +511,11 @@ e.http连接数
 a.nginx占用CPU使用率，越低越好
 b.nginx内存占用，越低越好
 c.nginx启动端口的状态
-d.nginx相应时间，可通过curl中的"%{time_total}"获取
+d.nginx响应时间，可通过curl中的"%{time_total}"获取
 e.nginx每秒HTTP请求数，越少越好
 f.异常状态码(4xx/5xx)占比
 g.下载速度监控,request size/request time
 ```
-
-
 
 
 
