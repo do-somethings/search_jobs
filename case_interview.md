@@ -123,10 +123,12 @@ print ''.join(s[i] for i in range(len(s)-1, -1, -1))
 dcba
 ```
 ##### 2.1.4 借用列表reverse()方法
+
+**注意列表的reverse()方法返回值为None，若想有返回值可使用reversed()方法,即reversed(l)**
+
 ```
 s='abcd'
 l = list(s)
-**注意列表的reverse()方法返回值为None，若想有返回值可使用reversed()方法,即reversed(l)**
 # use reverse()
 l.reverse()
 print '' .join(x for x in l)
@@ -207,6 +209,7 @@ find /data1 -type f -regextype posix-extended -regex '.*.(log|gz)' -mtime +30 �
 一段nginx日志如下：
 ```
 mobile.internal.sina.com.cn 10.75.24.59 0.012s -[16/Apr/2018:16:03:56 +0800] - "/api/phone/getphones" - 200 256 "-" -  "Jakarta Commons-HttpClient/3.1"
+mobile.internal.sina.com.cn 10.75.24.59 0.014s -[16/Apr/2018:16:03:56 +0800] - "/api/phone/getphones" - 200 256 "-" -  "Jakarta Commons-HttpClient/3.1"
 ```
 
 通过nginx访问日志：
@@ -215,13 +218,27 @@ mobile.internal.sina.com.cn 10.75.24.59 0.012s -[16/Apr/2018:16:03:56 +0800] - "
 
 **注意需要去掉第三列中的单位s，否则无法进行数学运算。**
 
+目前暂时列出以下3种方法，仅供参考
+
 ```
 # Method 1
 awk 'BEGIN{num=0;sum=0}{l=length($3);rt=substr($3,1,l-1);num++;sum+=rt}END{printf "%0.3f\n", sum/num}' nginx.log
 
 # Method 2
 awk '{print $3}' nginx.log |awk -F "s" '{print $1}'|awk '{ sum+=$1}END{print sum/NR}'
+
+# Method 3
+awk '{split($3,array,"s");sum += array[1]}END{print sum/NR}' nginx.log
+
+reference:
+1. https://stackoverflow.com/questions/1425290/awk-script-to-get-time-averages/1425413#1425413
+2. https://stackoverflow.com/questions/50054976/print-strings-from-nth-line-and-nth1-line-into-one-line
 ```
+
+上述三种方法中，1和3执行时间较快，详细见下：
+
+![2.jpg](https://i.loli.net/2018/04/28/5ae3574f7887f.jpg)
+
 
 - 按IP访问量列出前十名
 ```
