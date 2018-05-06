@@ -554,6 +554,10 @@ net.ipv4.ip_local_port_range = 1024 65000
 
 a.修改文件打开数
 
+**解决的实际问题是:在高负载下squid,mysql 会发生 打开的文件数超过系统的进程限制，造成系统瓶颈。**
+
+**重新登录即生效**，可使用`ulimit -a |grep files`查看
+
 > /bin/echo ' *    -       nofile  65535' >>/etc/security/limits.conf
 
 b.关闭SELINUX
