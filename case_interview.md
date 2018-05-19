@@ -71,7 +71,7 @@ wlp1s0
 #### 2.1 python
 
 ##### 2.1.1 使用字符串内置方法，设置步长为1
-```
+```python
 s='abcd'
 print s[::-1]
 dcba
@@ -87,7 +87,7 @@ This is extended slice syntax. It works by doing [begin:end:step]
 - 解释二：
 
 a[起始位(包含):结束位(不包含):差值]，[详见Stack Overflow](https://stackoverflow.com/questions/5846004/unable-to-reverse-lists-in-python-getting-nonetype-as-list)
-```
+```python
 a = range(20)
 Slices let you take a piece of an array. it works like a[beginIndexIncluded:endIndexExcluded:Step]
 a[::-1] includes all elements of a, but starts with the last one and ends with the first (reversal) 
@@ -103,7 +103,7 @@ dcba
 ##### 2.1.3 for循环，从右到左输出
 range(start, stop[, step])
 
-```
+```python
 #!/usr/bin/python
 # -*- coding:utf-8 -*-
 def reverse_string(s):
@@ -126,7 +126,7 @@ dcba
 
 **注意列表的reverse()方法返回值为None，若想有返回值可使用reversed()方法,即reversed(l)**
 
-```
+```python
 s='abcd'
 l = list(s)
 # use reverse()
@@ -220,7 +220,7 @@ mobile.internal.sina.com.cn 10.75.24.59 0.014s -[16/Apr/2018:16:03:56 +0800] - "
 
 目前暂时列出以下3种方法，仅供参考
 
-```
+```bash
 # Method 1
 awk 'BEGIN{num=0;sum=0}{l=length($3);rt=substr($3,1,l-1);num++;sum+=rt}END{printf "%0.3f\n", sum/num}' nginx.log
 
