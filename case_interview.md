@@ -569,8 +569,16 @@ b.关闭SELINUX
 c.ssh连接优化
 
 > PermitEmptyPasswords no
+
 > UseDNS no
+
 > GSSAPIAuthentication no
+
+```shell
+cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak
+sed -ir '13 iPermitEmptyPasswords no\nUseDNS no'  /etc/ssh/sshd_config
+sed -i '/GSSAPIAuthentication/s/GSSAPIAuthentication\ yes/GSSAPIAuthentication\ no/' /etc/ssh/sshd_config
+```
 
 d.精简开机自启动项目
 
