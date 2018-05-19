@@ -563,6 +563,7 @@ a.修改文件打开数
 b.关闭SELINUX
 
 > sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
+
 > setenforce 0
 
 c.ssh连接优化
