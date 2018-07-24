@@ -652,6 +652,9 @@ echo "export PROMPT_COMMAND='{ msg=\$(history 1 | { read x y; echo \$y; });user=
 ```
 
 f. 启用网卡中的gso功能
+REF:
+[TSO、UFO、GSO、LRO、GRO和RSS介绍（ethtool命令）](https://blog.csdn.net/superbfly/article/details/52442130)
+[网络虚拟化中的 offload 技术：LSO/LRO、GSO/GRO、TSO/UFO、VXLAN](https://blog.csdn.net/qiushanjushi/article/details/43852319)
 
 ```
 GSO(Generic Segmentation Offload)，它比TSO更通用，基本思想就是尽可能的推迟数据分片直至发送到网卡驱动之前，此时会检查
