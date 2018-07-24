@@ -492,19 +492,23 @@ b.减小TTL值，减少更新域名记录时的不可访问时间
 
 - host模式
 
-与宿主机共用网络栈，IP和端口，容器本身看起来就像是个普通的进程，它暴露的端口可直接通过宿主机访问。相比于bridge模式，host模式有显著的性能优势(因为走的是宿主机的网络栈，而不是docker deamon为容器虚拟的网络栈)。docker host上已经使用的端口在容器中就不能再用了
+与宿主机共用网络栈，IP和端口，容器本身看起来就像是个普通的进程，它暴露的端口可直接通过宿主机访问。相比于bridge模式，host模式有
+显著的性能优势(因为走的是宿主机的网络栈，而不是docker deamon为容器虚拟的网络栈)。docker host上已经使用的端口在容器中就不能再用了
 
 - container模式
 
-使用--net=container:container_id/container_name多个容器使用共同的网络，看到的ip是一样的，两个容器除了网络方面，其他的如文件系统、进程列表等还是隔离的。
+使用--net=container:container_id/container_name多个容器使用共同的网络，看到的ip是一样的，两个容器除了网络方面，其他的如文件
+系统、进程列表等还是隔离的。
 
 - none模式
 
-这种网络模式下容器只有lo回环网络，没有其他网卡。none网络可以在容器创建时通过--network=none来指定。这种类型的网络没有办法联网，封闭的网络能很好的保证容器的安全性。
+这种网络模式下容器只有lo回环网络，没有其他网卡。none网络可以在容器创建时通过--network=none来指定。这种类型的网络没有办法
+联网，封闭的网络能很好的保证容器的安全性。
 
 - bridge模式
 
-**默认网络模式**，此模式下，容器有自己的独立的Network Namespace。简单来说，Docker在宿主机上虚拟了一个子网络，宿主机上所有容器均在这个子网络中获取IP，这个子网通过网桥挂在宿主机网络上。Docker通过NAT技术确保容器可与宿主机外部网络交互。
+**默认网络模式**，此模式下，容器有自己的独立的Network Namespace。简单来说，Docker在宿主机上虚拟了一个子网络，宿主机上
+所有容器均在这个子网络中获取IP，这个子网通过网桥挂在宿主机网络上。Docker通过NAT技术确保容器可与宿主机外部网络交互。
 
 - overlay模式
 
@@ -512,7 +516,8 @@ b.减小TTL值，减少更新域名记录时的不可访问时间
 
 - macvlan模式
 
-通过为物理网卡创建Macvlan子接口，允许一块物理网卡拥有多个独立的MAC地址和IP地址。虚拟出来的子接口将直接暴露在底层物理网络中。从外界看来，就像是把网线分成多股，分别接到了不同的主机上一样。Macvlan是Linux内核支持的网络接口。要求的Linux内部版本是v3.9–3.19和4.0+。
+通过为物理网卡创建Macvlan子接口，允许一块物理网卡拥有多个独立的MAC地址和IP地址。虚拟出来的子接口将直接暴露在底层物理网络中。
+从外界看来，就像是把网线分成多股，分别接到了不同的主机上一样。Macvlan是Linux内核支持的网络接口。要求的Linux内部版本是v3.9–3.19和4.0+。
 
 - 官网介绍及相关博客
 
@@ -556,7 +561,8 @@ Docker、containerd和containerd-shim之间的关系：
 
 * 1)磁盘
  
-禁用 atime 日志记录特性,atime 是最近访问文件的时间，每当访问文件时，底层文件系统必须记录这个时间戳。因为系统管理员很少使用 atime，禁用它可以减少磁盘访问时间。禁用这个特性的方法是，在 /etc/fstab 的第四列中添加 noatime 选项。
+禁用 atime 日志记录特性,atime 是最近访问文件的时间，每当访问文件时，底层文件系统必须记录这个时间戳。
+因为系统管理员很少使用 atime，禁用它可以减少磁盘访问时间。禁用这个特性的方法是，在 /etc/fstab 的第四列中添加 noatime 选项。
 
 示例：
 ```
@@ -578,19 +584,21 @@ LABEL=SWAP-hda3         swap                    swap    defaults        0 0
 ```
 # Use TCP syncookies when needed
 net.ipv4.tcp_syncookies = 1
-设置启用 TCP SYN cookie。SYN cookie 特性可以识别出 SYN 泛滥（SYN flood） 的网络攻击，并使用一种优雅的方法保留队列中的空间。
+设置启用 TCP SYN cookie。SYN cookie 特性可以识别出 SYN 泛滥（SYN flood）的网络攻击，并使用一种优雅的方法保留队列中的空间。
 sysctl -w net.ipv4.tcp_synack_retries=2   # syn-ack握手状态重试次数，默认5，遭受syn-flood攻击时改为1或2
 sysctl -w net.ipv4.tcp_syn_retries=2      # 外向syn握手重试次数，默认4
 # Enable TCP window scaling
 net.ipv4.tcp_window_scaling: = 1
-启用 TCP 窗口伸缩使客户机能够以更高的速度下载数据。TCP 允许在未从远程端收到确认的情况下发送多个数据包，默认设置是最多 64 KB，在与延迟比较大的远程客户机进行通信时这个设置可能不够。窗口伸缩会在头中启用更多的位，从而增加窗口大小。
+启用 TCP 窗口伸缩使客户机能够以更高的速度下载数据。TCP 允许在未从远程端收到确认的情况下发送多个数据包，默认设置是最多 64 KB，
+在与延迟比较大的远程客户机进行通信时这个设置可能不够。窗口伸缩会在头中启用更多的位，从而增加窗口大小。
 # Increase TCP max buffer size
 net.core.rmem_max = 16777216
 net.core.wmem_max = 16777216
 # Increase Linux autotuning TCP buffer limits
 net.ipv4.tcp_rmem = 4096 87380 16777216 
 net.ipv4.tcp_wmem = 4096 65536 16777216
-以上四个配置项增加 TCP 发送和接收缓冲区。这使应用程序可以更快地丢掉它的数据，从而为另一个请求服务。还可以强化远程客户机在服务器繁忙时发送数据的能力。
+以上四个配置项增加 TCP 发送和接收缓冲区。这使应用程序可以更快地丢掉它的数据，从而为另一个请求服务。还可以强化远程客户机在
+服务器繁忙时发送数据的能力。
 # Increase number of ports available
 net.ipv4.ip_local_port_range = 1024 65000
 增加可用的本地端口数量，这样就增加了可以同时服务的最大连接数量。
@@ -646,9 +654,9 @@ echo "export PROMPT_COMMAND='{ msg=\$(history 1 | { read x y; echo \$y; });user=
 f. 启用网卡中的gso功能
 
 ```
-GSO(Generic Segmentation Offload)，它比TSO更通用，基本思想就是尽可能的推迟数据分片直至发送到网卡驱动之前，此时会检查网卡是否支持分片功能
-（如TSO、UFO）,如果支持直接发送到网卡，如果不支持就进行分片后再发往网卡。这样大数据包只需走一次协议栈，而不是被分割成几个数据包分别走，这就
-提高了效率。
+GSO(Generic Segmentation Offload)，它比TSO更通用，基本思想就是尽可能的推迟数据分片直至发送到网卡驱动之前，此时会检查
+网卡是否支持分片功能（如TSO、UFO）,如果支持直接发送到网卡，如果不支持就进行分片后再发往网卡。这样大数据包只需走一次协议
+栈，而不是被分割成几个数据包分别走，这就提高了效率。
 ```
 
 
