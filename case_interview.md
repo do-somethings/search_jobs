@@ -676,6 +676,8 @@ Zabbix既有自动注册又有主动发现
 
 #### Ganglia、Open-falcon、Prometheus、Zabbix
 
+[开源监控系统对比（Ganglia、Open-falcon、Prometheus、Zabbix)](http://blog.puppeter.com/read.php?70)
+
 ![2.jpg](https://i.loli.net/2018/07/31/5b600777dfbc0.jpg)
 
 ![1.png](https://i.loli.net/2018/07/31/5b600774f16b7.png)
