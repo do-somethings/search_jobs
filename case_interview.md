@@ -674,6 +674,12 @@ Prometheus采用的是pull的方式获取数据，Open-falcon使用push的方式
 
 Zabbix既有自动注册又有主动发现
 
+#### Ganglia、Open-falcon、Prometheus、Zabbix
+
+![2.jpg](https://i.loli.net/2018/07/31/5b600777dfbc0.jpg)
+
+![1.png](https://i.loli.net/2018/07/31/5b600774f16b7.png)
+
 ### 2. 收集监控指标
 
 需要监控一台服务器的哪些指标，如果是这台机器是web服务器还需要监控哪些项目。
@@ -706,7 +712,6 @@ e.nginx每秒HTTP请求数，越少越好
 f.异常状态码(4xx/5xx)占比
 g.下载速度监控,request size/request time
 ```
-
 
 ## 六、 线上发布
 
