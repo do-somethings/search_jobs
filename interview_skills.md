@@ -68,5 +68,6 @@
 ## 面试经验分享
 
 [头条 Python 工程师面经分享(微信公众号链接)](https://mp.weixin.qq.com/s?__biz=MzA3OTgyMDcwNg==&mid=2650635806&idx=2&sn=667daee72c1001393bb8cd8ff6003b55&chksm=87a47cd3b0d3f5c52fc91feccd847132f49fe73b837babfd4c89ab7399cd4678ec35ff1bf9a1&mpshare=1&scene=1&srcid=0829I4nGhAmB51hYcAamWMhu#rd)
+
 [头条 Python 工程师面经分享(2017 后端面试经历分享)](https://www.rapospectre.com/blog/2017-backend-interview-share)
  
