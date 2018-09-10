@@ -612,6 +612,8 @@ net.ipv4.ip_local_port_range = 1024 65000
 
 * 3)系统
 
+[redhat官网提供的性能优化方案](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/performance_tuning_guide)
+
 a.修改文件打开数
 
 **解决的实际问题是:在高负载下squid,mysql 会发生 打开的文件数超过系统的进程限制，造成系统瓶颈。**
@@ -667,6 +669,14 @@ GSO(Generic Segmentation Offload)，它比TSO更通用，基本思想就是尽�
 网卡是否支持分片功能（如TSO、UFO）,如果支持直接发送到网卡，如果不支持就进行分片后再发往网卡。这样大数据包只需走一次协议
 栈，而不是被分割成几个数据包分别走，这就提高了效率。
 ```
+
+g.网卡多队列
+
+即一个队列绑定到一个CPU核上，让多核同时处理网络数据包。
+如果网卡不支持多队列，可以用google提供的软多队列-RPS，linux内核默认已经集成；
+[RECEIVE PACKET STEERING (RPS)](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/performance_tuning_guide/network-rps)
+
+
 
 ### 3. 多网卡的7种Bond模式
 
