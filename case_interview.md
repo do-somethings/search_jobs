@@ -841,7 +841,7 @@ TCP的连接的拆除需要发送四个包，因此称为四次挥手(Four-way h
 
  配置文件：/etc/security/access.conf
  
-- 限制能够登录的一组特定终端，来限制root用户的访问
+- 通过限制能够登录的一组特定终端，来限制root用户的访问
 
 只允许 root用户，限制ubuntu 用户只能从 192.168.8.162 登陆。
 
@@ -854,7 +854,7 @@ account  required     pam_access.so
 vim /etc/security/access.conf，添加
 ```
 + : root : ALL
-+ : ubuntu : 192.168.28.162/32
++ : ubuntu : 192.168.8.162/32
 - : ALL : ALL
 ```
 
