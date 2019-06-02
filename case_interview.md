@@ -761,7 +761,6 @@ g.下载速度监控,request size/request time
 
 请简述下你们公司的发布流程。
 
-
 > 测试->灰度->线上，具体的发布流程图，涉及到每个环节的技术要点
 
 > 包括但不限于nginx&php，nginx&tomcat...
@@ -834,7 +833,65 @@ TCP的连接的拆除需要发送四个包，因此称为四次挥手(Four-way h
 
     * 客户端等待了某个固定时间（两个最大段生命周期，2MSL，2 Maximum Segment Lifetime）之后，没有收到服务器端的 ACK ，认为服务器端已经正常关闭连接，于是自己也关闭连接，进入 CLOSED 状态。
 
-## 八、其他
+## 八、 安全
+
+参考文章： [如何用几个简单的命令改善你的Linux安全](https://mp.weixin.qq.com/s/1exIgwt-ss9x5kaSfc-BFA)
+
+### 1. 控制台安全
+
+ 配置文件：/etc/security/access.conf
+ 
+- 限制能够登录的一组特定终端，来限制root用户的访问
+
+只允许 root用户，限制ubuntu 用户只能从 192.168.8.162 登陆。
+
+1：
+vim /etc/pam.d/sshd，添加
+```
+account  required     pam_access.so
+```
+2：
+vim /etc/security/access.conf，添加
+```
++ : root : ALL
++ : ubuntu : 192.168.28.162/32
+- : ALL : ALL
+```
+
+REF：[how-to-restrict-users-access-on-a-linux-machine](https://linuxconfig.org/how-to-restrict-users-access-on-a-linux-machine)
+
+- 只允许root用户去登录到一个终端之上
+- 强制所有其他用户都使用非root用户的身份进行登录
+- 需要root用户权限的时候，请使用su命令来获取
+
+### 2. 密码生命周期
+
+为密码指定一个有效的时间周期。时间到期后，系统将强制要求用户输入一个新的密码。
+
+这样有效地确保了密码的定期更换，以及密码在被偷盗、破解或为人所知的情况下能够迅速过期。
+
+有两种方法可以实现这个效果。
+
+- 第一种方法是通过命令行使用如下的改变命令：
+
+> chage -M 20 likegeeks
+
+使用- M选项为likegeeks用户设置了有效期限为20天的密码。
+
+也可以输入不带任何选项的chage命令，它会自动提示你选项：
+
+> chage likegeeks
+
+- 第二种方法是在/etc/login.defs中为所有用户设置默认值。你可以参照下面，按需改变其数值：
+
+> PASS_MAX_DAYS 20 PASS_MIN_DAYS 0 PASS_WARN_AGE 5
+
+### 3. Sudo的通知
+
+
+
+
+## 九、其他
 
 ### 1. 如何确保线上服务稳定？
 
