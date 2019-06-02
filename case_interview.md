@@ -781,6 +781,10 @@ g.下载速度监控,request size/request time
 
 - 三次握手
 
+三次握手示意图
+
+![TCP三次握手 (1).png](https://i.loli.net/2018/12/31/5c28fef7906f0.png)
+
 所谓三次握手(Three-way Handshake)，是指建立一个 TCP 连接时，需要客户端和服务器总共发送3个包
 
 三次握手的目的是连接服务器指定端口，建立 TCP 连接，并同步连接双方的序列号和确认号，交换 TCP 窗口大小信息。在 socket 编程中，客户端执行 connect() 时。将触发三次握手。
