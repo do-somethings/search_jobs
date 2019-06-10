@@ -892,6 +892,89 @@ REF：[how-to-restrict-users-access-on-a-linux-machine](https://linuxconfig.org/
 
 ### 3. Sudo的通知
 
+当sudo命令被使用的时侯，你可以通过在文件中添加如下一行语句，以配置其向外发送电子邮件。
+
+> mailto yourname@yourdomain.com
+
+当然你也可以用如下语句改变sudo的发邮件状态：
+
+> mail_always on
+
+### 4. SSH调优
+
+SSH 是系统中重要的一种服务，它使你能够轻松地连接到自己的系统。
+
+本文所使用的是CentOS 7，那么其SSH的配置文件就存放在 `/etc/ssh/sshd_config` 中。
+
+- 改变SSH的原有端口到另一个未使用的端口上，比如5555
+
+> Port 5555
+
+- 限制root的登录
+
+> PermitRootLogin no
+
+- 禁用无密码的通道
+
+> PasswordAuthentication no
+
+- 使用公钥登录的方式
+
+> PermitEmptyPasswords no
+
+- 启用UseDNS
+
+注意启用后会导致 ssh 连接变慢，因为增加了 DNS 查询。
+
+> UseDNS yes
+
+- 关闭 GSSAPI 认证
+
+> GSSAPIAuthentication no
+
+- 保持 ssh 连接
+
+```shell
+# ssh会每 15 秒发送一个KeepAlive请求，保证终端不会因为超时空闲而断开连接。
+ServerAliveInterval 15
+ServerAliveCountMax 3 
+# 最多发送3次
+TCPKeepAlive yes
+```
+
+- 指定允许使用SSH的用户名
+
+> AllowUsers user1 user2
+
+- 指定允许使用SSH的组
+
+> AllowGroup group1 group2
+
+- 启用双因素认证
+
+启用诸如Google Authenticator这样的双因素认证方式
+
+> yum install google-authenticator
+
+之后通过运行 `google-authenticator` 以验证是否成功安装.
+
+1) 手机安装 Google authenticator 应用
+
+2) 将下面一行添加到 /etc/pam.d/sshd 中
+
+> auth required pam_google_authenticator.so
+
+3) 添加下面一行到 /etc/ssh/sshd_config 中，以通知SSH
+
+> ChallengeResponseAuthentication yes
+
+4) 重启 SSH 服务
+
+> systemctl restart sshd
+
+当你使用SSH登录的时候，它将会询问一个验证码。这便意味着你的SSH已经能够应对暴力破解的攻击，且更为稳固了。
+
+### 5. 使用Tripwire进行入侵检测
 
 
 
