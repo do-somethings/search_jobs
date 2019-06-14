@@ -618,6 +618,34 @@ a.修改文件打开数
 
 **解决的实际问题是:在高负载下squid,mysql 会发生 打开的文件数超过系统的进程限制，造成系统瓶颈。**
 
+```
+file-max与ulimit的关系与差别:
+
+ max-file表示系统级别的能够打开的文件句柄的数量, 而ulimit -n控制进程级别能够打开的文件句柄的数量
+ /proc/sys/fs/file-max
+ file-max是设置 系统所有进程一共可以打开的文件数量 。同时一些程序可以通过setrlimit调用，设置每个进程的限制。如果得到大量使用完文件句柄的错误信息，是应该增加这个值。
+也就是说，这项参数是系统级别的。
+
+echo 6553560 > /proc/sys/fs/file-max
+或修改 /etc/sysctl.conf, 加入
+fs.file-max = 6553560 
+重启生效
+
+ulimit:
+设置当前shell以及由它启动的进程的资源限制。
+
+显然，对服务器来说，file-max, ulimit都需要设置，否则就可能出现文件描述符用尽的问题，为了让机器在重启之后仍然有效，强烈建立作以下配置，以确保file-max, ulimit的值正确无误：
+
+1. 修改/etc/sysctl.conf, 加入
+fs.file-max = 6553560
+
+2.系统默认的ulimit对文件打开数量的限制是1024，修改/etc/security/limits.conf并加入以下配置，永久生效
+* soft nofile 65535
+* hard nofile 65535
+
+修改完之后，重启即可生效。
+```
+
 **重新登录即生效**，可使用`ulimit -a |grep files`查看
 
 > /bin/echo ' *    -       nofile  65535' >>/etc/security/limits.conf
