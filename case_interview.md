@@ -1012,6 +1012,103 @@ TCPKeepAlive yes
 
 ### 5. 使用Tripwire进行入侵检测
 
+Tripwire是Linux安全里的重要工具之一。这是一种基于主机的入侵检测系统(HIDS)。它通过收集配置和文件系统的细节，并使用这些信息来提供系统先前与当前状态之间的参考点等方式进行工作。该过程监测文件或目录的属性包括：哪些被添加或修改了、谁修改的、修改了什么、何时修改的。因此它就是你文件系统的“看门狗”。
+
+你需要访问EPEL存储库来获取Tripwire。你可以按如下方法轻松地添加该库：
+
+```shell
+wget http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-9.noarch.rpm $ 
+rpm -ivh epel-release-7-9.noarch.rpm
+```
+
+一旦成功安装了EPEL库，你就可以安装Tripwire了：
+
+> $ sudo yum install tripwire
+
+在使用Tripwire之前，你需要用如下命令来创建本地和网站密钥：
+
+> $ tripwire-setup-keyfiles
+
+它会提示你输入一个用于网站和本地密钥文件的密码。Tripwire也会建议你使用大写字母、小写字母、数字和标点符号的组合。
+
+你可以通过更改如下文件来定制Tripwire：
+
+> /etc/tripwire/twpol.txt
+
+因为每一行都有注释，且描述也很到位，因此该文件还是比较容易阅读和修改的。
+
+你可以用如下的方式更新自己的Tripwire策略。
+
+> $ tripwire --update-policy --secure-mode low /etc/tripwire/twpol.txt
+
+Tripwire将通过参考你的更改，在屏幕上持续刷新显示各个阶段的步骤。当这些完成之后，你就应该能够以如下方式初始化Tripwire数据库了：
+
+> $ tripwire --init
+
+然后Tripwire将开始扫描系统。它所需要的时长取决于系统的总体规模。
+
+任何对文件系统更改将被认为是一种系统的入侵，因此管理员会被通知到，而且他需要使用受信任的文件予以系统恢复。正是出于这个原因，Tripwire必须去验证任何的系统更改。你可以通过如下命令来验证你的现有的策略文件：
+
+> $ tripwire --check
+
+关于Tripwire，我的最后一点建议是：请额外去加固twpol.txt和twcfg.txt文件的安全。
+
+更多有关Tripwire的选项和设置，你可以通过man tripwire查阅到。
+
+### 6. 使用Firewalld
+
+Firewalld替代了iptables，并且通过在不停止当前连接的情况下启用各种配置的更改，从而改善了Linux的安全管理。
+
+Firewalld作为守护进程形式运行着。它允许各种规则被即时地添加和更改，而且它使用各种网络区域来为任何以及所有与网络相关的连接定义一种信任级别。
+
+要想知道Firewalld的当前运行状态，你可以输入如下命令：
+
+> $ firewall-cmd --state
+
+```shell
+# firewall-cmd --state
+not running
+```
+
+你可以用如下命令罗列出预定义的区域：
+
+> $ firewall-cmd --get-zones
+
+其值也可以如下方式进行更新：
+
+> $ firewall-cmd --set-default-zone=
+
+你可以用以下命令获取任何特定区域的所有相关信息：
+
+> $ firewall-cmd --zone= --list-all
+
+你也能列出所有支持的服务：
+
+> $ firewall-cmd --get-services
+
+而且你可以添加或删除额外的服务。
+
+> $ firewall-cmd --zone=--add-service= 
+> $ firewall-cmd --zone=--remove-service=
+
+你能通过如下命令列出任何特定区域中所有开放的端口：
+
+> $ firewall-cmd --zone= --list-ports
+
+你可用如下方式管理TCP/UDP端口的增加与删除：
+
+> $ firewall-cmd --zone=--add-port= 
+> $ firewall-cmd --zone=--remove-port=
+
+你可以如下命令添加或删除端口的转发：
+
+> $ firewall-cmd --zone=--add-forward-port=  
+> $ firewall-cmd --zone=--remove-forwar
+
+Firewalld是非常全面的。其中Firewalld最棒的地方当数：你可以在不需要停止或重新启动防火墙服务的情况下，管理该防火墙的体系结构。而这正是运用IPtables所无法实现的。
+
+### 7. 使用回归iptables
+
 
 
 ## 九、其他
