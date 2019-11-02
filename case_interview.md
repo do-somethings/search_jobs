@@ -1150,5 +1150,10 @@ Firewalld是非常全面的。其中Firewalld最棒的地方当数：你可以�
 定义标准、规范流程、工具平台化
 ```
 
+### 3. 标准规范
+
+- 主机名称规范
+https://www.kancloud.cn/huyipow/devops/971143
+
 
 
