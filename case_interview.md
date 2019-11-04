@@ -1107,9 +1107,106 @@ not running
 
 Firewalld是非常全面的。其中Firewalld最棒的地方当数：你可以在不需要停止或重新启动防火墙服务的情况下，管理该防火墙的体系结构。而这正是运用IPtables所无法实现的。
 
-### 7. 使用回归iptables
+### 7. 回归iptables
+
+有一些人仍然还是喜欢IP tables 胜过Firewalld。那么如果你正好处于这种想舍去Firewalld而回归IP tables的话，请首先禁用Firewalld：
+
+> $ systemctl disable firewalld  
+> $ systemctlstop firewalld
+
+然后来安装IP tables：
+
+> $ yum install iptables-services  
+>$ touch /etc/sysconfig/iptables
+
+现在你就可以启动IP tables的服务了：
+
+> $ systemctlstart iptables  
+> $ systemctlstart ip6tables 
+> $ systemctlstart reboot
+
+### 8. 限制编译器
+
+如果你的系统被黑掉了，那么攻击者会对系统使用的是哪种编译器很感兴趣。为什么呢?因为他们可以去下载一个简单的C文件(POC)，并且在你的系统上进行编译，从而在几秒钟之内就成为了root用户。如果编译器是开启的话，他们还可以在你的系统上做一些严重的破坏。
+
+首先，你需要检查单个的数据包以确定其包含有哪些二进制文件。然后你需要限制这些二进制文件的权限。
+
+> rpm -q --filesbypkg gcc | grep 'bin'
+
+现在我们需要创建一个可以访问二进制文件的编译器的组名称了：
+
+> $ groupadd compilerGroup
+
+然后，你可以赋予这个组能够改变任何二进制文件的所有权：
+
+> $ chown root:compilerGroup /usr/bin/gcc
+
+最后重要的是：仅编译器组才有改变该二进制文件的权限：
+
+> $ chmod 0750 /usr/bin/gcc
+
+至此，任何试图使用gcc的用户将会看到权限被拒绝的信息了。
 
 
+我知道有些人可能会说，如果攻击者发现编译器被关闭了的话，他会去下载编译器本身。这就是另外一个故事了，我们会在未来的文章中涉及到的。
+
+### 9. 不可修改文件
+
+不可修改文件是Linux系统中一种最为强大的安全特性。任何用户(即使是root用户)，无论他们的文件权限是怎样的，都无法对不可修改文件进行写入、删除、重命名甚至是创建硬链接等操作。这真是太棒了!
+
+它们是保护配置文件或防止你的文件被修改的理想选择。请使用chattr命令来将任何文件变得不修改：
+
+> $ chattr +i /myscript
+
+你也可以如下方法去除其不可修改属性：
+
+> $ chattr -i /myscript
+
+/sbin 和/usr/lib两个目录内容能被设置为不可改变，以防止攻击者替换关键的二进制文件或库文件成为恶意软件版本。我将其他有关使用不可改变文件的例子，留给你去想象。
+
+### 10. 用Aureport来管理SELinux
+
+通常情况下，如果你使用的是主机控制面板，或者当有一个或多个特定的应用程序可能会碰到一些问题的时候，他们是不会运行在SELinux已启用的模式下的，也就是说你会发现SELinux是禁用掉的。
+
+但是禁用SELinux确实会将系统暴露于风险之中。我的观点是：由于SELinux有一定的复杂性，对于我们这些仍想获益于安全性的人来说，完全可以通过运行aureport的选项来使得工作轻松些。
+
+aureport工具被设计为创建一些基于列特征的报告，以显示在审计日志文件中所记录的那些事件。
+
+> $ aureport --avc
+
+你也可以运用同样的工具来创建一个可执行文件的列表：
+
+> $ aureport -x
+
+你也可以使用aureport来产生一个认证的全量报告：
+
+> $ aureport -au -i
+
+或者你还可以列出那些认证失败的事件：
+
+> $ aureport -au --summary -i --failed
+
+或者你也需要一个认证成功的事件的摘要：
+
+> $ aureport -au --summary -i --success
+
+可见，当你使用一个运行着SELinux的系统来进行系统的故障诊断的时侯，你作为系统管理员首要考虑的应该就是使用aureport的各种好处了。
+
+### 11. 使用Sealert工具
+
+除了aureport工具你也可以使用一个很好的Linux安全工具—sealert。你可以用以下的命令来进行安装：
+
+> $ yum install setools
+
+那么现在我们就有了一个工具，它将积极地从/var/log/audit/audit.log这一日志文件中返回各种警告，并将其转换得更为“人性化”且可读。
+
+这个称为sealert的工具，其目的是能报告出任何与SELinux有关联的问题。你可以这样来使用它：
+
+> $ sealert -a /var/log/audit/audit.log
+
+关于所生成的报告，其最好之处是：在每个被发现的问题的警报末尾，系统都会给出如何去解决该问题的相关解释。
+
+在这篇文章中，我们讨论了一些可以帮助你加固Linux系统的安全技巧。当然，对于各种运行的服务而言，仍有许多值得加固的Linux安全技巧有待发掘。我希望你能从本文中找到对你有用和有趣的内容。
 
 ## 九、其他
 
