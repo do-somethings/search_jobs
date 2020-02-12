@@ -626,6 +626,48 @@ net.ipv4.tcp_wmem = 4096 65536 16777216
 # Increase number of ports available
 net.ipv4.ip_local_port_range = 1024 65000
 增加可用的本地端口数量，这样就增加了可以同时服务的最大连接数量。
+
+net.ipv4.tcp_fin_timeout = 30
+net.ipv4.tcp_tw_recycle = 1
+net.ipv4.tcp_tw_reuse = 1
+net.ipv4.tcp_synack_retries = 1
+net.ipv4.tcp_syn_retries = 1
+net.ipv4.tcp_max_orphans = 262144
+net.ipv4.tcp_max_syn_backlog = 16384
+net.ipv4.tcp_max_tw_buckets = 5000
+net.ipv4.tcp_keepalive_time = 300
+net.ipv4.tcp_syncookies = 1
+
+
+TIME_WAIT状态的连接回收功能，默认值是 60，对于本端断开的socket连接，TCP保持在FIN_WAIT_2状态的时间
+net.ipv4.tcp_fin_timeout = 30
+
+时间戳选项，与前面net.ipv4.tcp_tw_reuse参数配合，1表示开启TCP连接中TIME-WAIT sockets的快速回收，默认为0，表示关闭。
+net.ipv4.tcp_tw_recycle = 1
+
+TIME_WAIT状态的连接重用功能是否开启（默认为0），1表示允许将TIME-WAIT sockets重新用于新的TCP连接;0表示关闭。
+net.ipv4.tcp_tw_reuse = 1
+
+表示回应第二个握手包（SYN+ACK包）给客户端IP后，如果收不到第三次握手包（ACK包），进行重试的次数（默认为5）
+net.ipv4.tcp_synack_retries = 1
+
+表示当没有收到服务器端的SYN+ACK包时，客户端重发SYN握手包的次数（默认为5）。
+net.ipv4.tcp_syn_retries = 1
+
+系统所能处理不属于任何进程的 socket数量，当我们需要快速建立大量连接时，就需要关注下这个值了。
+net.ipv4.tcp_max_orphans = 262144
+
+半连接队列长度（默认为1024），加大SYN队列长度可以容纳更多等待连接的网络连接数，具体多少数值受限于内存
+net.ipv4.tcp_max_syn_backlog = 16384
+
+系统同时保持TIME_WAIT套接字的最大数量，如果超过这个数字，TIME_WAIT套接字将立刻被清除并打印警告信息。默认为180000，改为5000；
+net.ipv4.tcp_max_tw_buckets = 5000
+
+当keepalive起用的时候，TCP发送keepalive消息的频度。缺省是2小时，改为300秒；
+net.ipv4.tcp_keepalive_time = 300
+
+当出现半连接队列溢出时是否向对方发送syncookies（默认为0），1表示启用cookies来处理，可防范少量SYN攻击；0表示关闭。调大半连接队列后没必要
+net.ipv4.tcp_syncookies = 1
 ```
 
 * 3)系统
